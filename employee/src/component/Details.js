@@ -8,6 +8,7 @@ const Details = () => {
 
     const [value, setValue] = useState()
     const [modalShow, setModalShow] = useState(false)
+    const [search, setSearch] = useState('')
 
 
     const dispatch = useDispatch();
@@ -21,18 +22,28 @@ const Details = () => {
 
     useEffect(() => {
         // fetchApi()
-        dispatch(fetchData())
+        dispatch(fetchApi())
     }, [])
 
     const onDetails = (item) => {
-        console.log('iteeem', item.id)
+        // console.log('iteeem', item.id)
         setModalShow(true)
     }
+
+    const handleChange = (e) => {
+        setSearch(e.target.value)
+    }
+
+    const filterDetails = value.filter(item => 
+        item.name.toLowerCase().includes(search.toLowerCase())
+        
+    )
 
     return (
         <>
             <NavBar />
-            <div className='details'>  </div>
+            <div className='details'></div>
+            <input type="text" placeholder='Enter your search' onChange={handleChange}  />
             <div className="table-wrapper">
                 <table className="fl-table">
                     <thead>
@@ -43,7 +54,7 @@ const Details = () => {
                             <th>Email</th>
                         </tr>
                     </thead>
-                    {value && value.map((item) => (
+                    {filterData && filterData.map((item) => (
                         <tbody >
                             <tr onClick={() => onDetails(item)}>
                                 <td key={item.id}>{item.id}</td>
